@@ -1,0 +1,69 @@
+apply plugin: 'com.android.application'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 33
+    defaultConfig {
+        applicationId "com.elisakjalava.budgettrackertask"
+        minSdkVersion 26
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1"
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+
+    buildTypes {
+        debug {
+        }
+        release {
+            minifyEnabled true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        compose true
+        viewBinding true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.1"
+    }
+
+}
+
+dependencies {
+    def compose_version = "1.3.1"
+    def lifecycle_version = "2.5.1"
+    def room_version = "2.4.3"
+    def hilt_base_version = "2.38.1"
+    def hilt_androidX_version = "1.0.0"
+
+    implementation "androidx.activity:activity-compose:1.6.1"
+    implementation "androidx.appcompat:appcompat:1.5.1"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "com.google.dagger:hilt-android:$hilt_base_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_base_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_androidX_version"
+
+}
