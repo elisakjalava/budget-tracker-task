@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.elisakjalava.budgettrackertask">
     <application android:name=".BudgetTrackerApp">
-        <activity android:name="com.elisakjalava.budgettrackertask.MainActivity"
+        <activity android:name="com.elisakjalava.budgettrackertask.tracker.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
