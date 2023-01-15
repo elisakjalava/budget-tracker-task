@@ -24,6 +24,14 @@ class BudgetRepository @Inject constructor(
         entryDao.insertEntry(entry)
     }
 
+    fun updateBudgetForMonth(newAmount: Float) {
+        if (budgetDao.getBudget(currentMonth) == null) {
+            budgetDao.insert(Budget(0, newAmount, currentMonth))
+        } else {
+            budgetDao.updateBudgetByMonth(newAmount, currentMonth)
+        }
+    }
+
     fun removeEntry(id: Long) {
         entryDao.deleteEntryById(id)
     }

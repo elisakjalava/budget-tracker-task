@@ -38,7 +38,7 @@ fun EntryEditorDialog(
     setShowDialog: (Boolean) -> Unit,
     setEntry: (Entry) -> Unit
 ) {
-    val textFieldAmount = remember { mutableStateOf(entry.amount) }
+    val textFieldAmount = remember { mutableStateOf(entry.amount.toString()) }
     val textFieldDescription = remember { mutableStateOf(entry.description) }
     val focusManager = LocalFocusManager.current
 
@@ -63,7 +63,7 @@ fun EntryEditorDialog(
                         )
                         Icon(
                             imageVector = Icons.Filled.Close,
-                            contentDescription = "",
+                            contentDescription = "close dialog",
                             tint = Color.DarkGray,
                             modifier = Modifier
                                 .width(30.dp)
@@ -73,14 +73,10 @@ fun EntryEditorDialog(
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                     OutlinedTextField(
-                        value = textFieldAmount.value.toString(),
-                        onValueChange = { textFieldAmount.value = parseFloat(it) },
+                        value = textFieldAmount.value,
+                        onValueChange = { textFieldAmount.value = it },
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .border(
-                                BorderStroke(width = 1.dp, color = Color.Gray),
-                                shape = RoundedCornerShape(50)
-                            ),
+                            .fillMaxWidth(),
                         placeholder = { Text(text = "Enter value") },
                         label = { Text(text = "Amount") },
                         keyboardActions = KeyboardActions(
@@ -106,12 +102,13 @@ fun EntryEditorDialog(
                     Button(onClick = {
                         val updatedEntry = Entry(
                             entry.id,
-                            textFieldAmount.value,
+                            parseFloat(textFieldAmount.value),
                             entry.month,
                             textFieldDescription.value,
                             DateTime.now()
                         )
                         setEntry(updatedEntry)
+                        setShowDialog(false)
                     }) {
                         Text(text = "Done")
                     }

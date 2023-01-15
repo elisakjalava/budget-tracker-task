@@ -18,4 +18,8 @@ interface BudgetDao {
     @Query("SELECT budget.amount - SUM(entries.amount) " +
             "FROM budget JOIN entries ON budget.month = entries.month WHERE budget.month = :month")
     fun observeRemainingBudgetForMonth(month: Int): Flow<Float>
+
+    @Query("SELECT * FROM budget WHERE month = :month")
+    fun getBudget(month: Int): Budget?
+
 }
