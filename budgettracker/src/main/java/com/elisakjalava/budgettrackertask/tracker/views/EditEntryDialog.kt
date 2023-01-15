@@ -39,6 +39,7 @@ fun EntryEditorDialog(
     setEntry: (Entry) -> Unit
 ) {
     val textFieldAmount = remember { mutableStateOf(entry.amount.toString()) }
+    val textFieldError = remember { mutableStateOf("") }
     val textFieldDescription = remember { mutableStateOf(entry.description) }
     val focusManager = LocalFocusManager.current
 
@@ -100,6 +101,10 @@ fun EntryEditorDialog(
                     )
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = {
+                        if (parseFloat(textFieldAmount.value) < 0.0f) {
+                            textFieldError.value = "Please enter a positive number"
+                            return@Button
+                        }
                         val updatedEntry = Entry(
                             entry.id,
                             parseFloat(textFieldAmount.value),
