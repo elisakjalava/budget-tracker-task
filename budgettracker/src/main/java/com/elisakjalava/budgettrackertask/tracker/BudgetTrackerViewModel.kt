@@ -27,6 +27,11 @@ class BudgetTrackerViewModel @Inject constructor(
         viewModelScope, SharingStarted.Eagerly, 0.0f
     )
 
+    private val _totalEntries = budgetRepository.observeCurrentMonthEntryTotal()
+    val totalEntries = _totalEntries.stateIn(
+        viewModelScope, SharingStarted.Eagerly, 0.0f
+    )
+
     fun onEntry(entry: Entry) = CoroutineScope(Dispatchers.IO).launch {
         budgetRepository.addOrUpdateEntry(entry)
     }

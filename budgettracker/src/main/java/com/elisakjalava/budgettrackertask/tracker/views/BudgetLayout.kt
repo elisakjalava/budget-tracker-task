@@ -39,20 +39,15 @@ import java.lang.Float.parseFloat
 @Composable
 fun RemainingBudget(remainingBudget: StateFlow<Float?>) {
     val budget = remainingBudget.collectAsState(0.0f)
-    val initialText = if (budget.value == null) "0 €" else budget.value.toString()
+    val initialText = if (budget.value == null) "0" else budget.value.toString()
     Column (horizontalAlignment = Alignment.CenterHorizontally) {
         Row (verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = initialText,
+                text = "$initialText €",
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold,
                 color = if (budget.value != null && budget.value!! >= 0) Color.Green else Color.Red,
                 modifier = Modifier.padding(vertical = 16.dp)
-            )
-            Text(
-                text = " €",
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold
             )
         }
         Row {
@@ -76,19 +71,42 @@ fun EditBudgetButton(editBudgetClickListener: () -> Unit) {
 }
 
 @Composable
-fun RemainingBudgetView(
-    remainingBudget: StateFlow<Float>,
-    editBudgetClickListener: () -> Unit
+fun TotalEntriesView(
+    totalAmountFlow: StateFlow<Float?>
 ) {
+    val totalAmount = totalAmountFlow.collectAsState(0.0f)
+    val initialText = if (totalAmount.value == null) "0" else totalAmount.value.toString()
     Row(
         modifier = Modifier
-            .padding(vertical = 32.dp, horizontal = 16.dp)
+            .padding(all = 16.dp)
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.Start
     ) {
-        RemainingBudget(remainingBudget)
-        EditBudgetButton(editBudgetClickListener)
+        Text(text = "Total used this month: ", fontWeight = FontWeight.Thin)
+        Text(text = "$initialText €")
     }
+}
+
+@Composable
+fun RemainingBudgetView(
+    remainingBudget: StateFlow<Float>,
+    editBudgetClickListener: () -> Unit,
+    totalAmountFlow: StateFlow<Float>
+) {
+    Column {
+        Row(
+            modifier = Modifier
+                .padding(vertical = 32.dp, horizontal = 16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            RemainingBudget(remainingBudget)
+            EditBudgetButton(editBudgetClickListener)
+        }
+
+        TotalEntriesView(totalAmountFlow)
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -160,10 +178,12 @@ fun EditBudgetForMonthDialog(
 fun PreviewRemainingBudgetView() {
     val remainingBudget = MutableStateFlow(245.20f)
     val editBudgetClickListener = {}
+    val totalAmount = MutableStateFlow(200.0f)
 
     RemainingBudgetView(
         remainingBudget = remainingBudget.asStateFlow(),
-        editBudgetClickListener = editBudgetClickListener
+        editBudgetClickListener = editBudgetClickListener,
+        totalAmountFlow = totalAmount
     )
 }
 

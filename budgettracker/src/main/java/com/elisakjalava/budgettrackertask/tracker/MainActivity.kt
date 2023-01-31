@@ -89,7 +89,8 @@ fun MainLayout(
     Column {
         RemainingBudgetView(
             remainingBudget = viewModel.remainingBudget,
-            editBudgetClickListener = editBudgetClicked
+            editBudgetClickListener = editBudgetClicked,
+            totalAmountFlow = viewModel.totalEntries
         )
         EntryList(
             entries = viewModel.entries,

@@ -13,6 +13,9 @@ interface EntryDao {
     @Query("SELECT * FROM entries WHERE month = :month")
     fun observeEntriesForMonth(month: Int): Flow<List<Entry>>
 
+    @Query("SELECT SUM(amount) FROM entries WHERE month = :month")
+    fun observeTotalEntriesForMonth(month: Int): Flow<Float>
+
     @Query("DELETE FROM entries WHERE id = :id")
     fun deleteEntryById(id: Long)
 

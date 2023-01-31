@@ -16,10 +16,6 @@ class BudgetRepository @Inject constructor(
 
     private val currentMonth = DateTime.now().monthOfYear
 
-    fun addBudget(amount: Float) {
-        budgetDao.insert(Budget(0, amount, currentMonth))
-    }
-
     fun addOrUpdateEntry(entry: Entry) {
         entryDao.insertEntry(entry)
     }
@@ -42,6 +38,10 @@ class BudgetRepository @Inject constructor(
 
     fun observeCurrentMonthEntries(): Flow<List<Entry>> {
         return entryDao.observeEntriesForMonth(currentMonth)
+    }
+
+    fun observeCurrentMonthEntryTotal(): Flow<Float> {
+        return entryDao.observeTotalEntriesForMonth(currentMonth)
     }
 
 }
